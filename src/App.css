@@ -1,0 +1,289 @@
+.app {
+  display: grid;
+  grid-template-columns: 280px 1fr 300px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.panel {
+  overflow-y: auto;
+  padding: 16px;
+  background: var(--panel);
+  border-color: var(--line);
+  border-style: solid;
+  border-width: 0;
+}
+.panel.left { border-right-width: 1px; }
+.panel.right { border-left-width: 1px; }
+
+h2 {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 4px 0 10px;
+}
+h2 + * { margin-bottom: 20px; }
+h3 {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 18px 0 8px;
+  font-weight: 600;
+}
+.muted { color: var(--muted); font-size: 13px; }
+code { font-size: 11px; color: var(--accent); }
+
+.kinds { display: grid; gap: 6px; }
+.kind {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--fg);
+  cursor: pointer;
+}
+.kind:hover { border-color: var(--accent); }
+.kind strong { font-size: 13px; }
+.kind span { font-size: 12px; color: var(--muted); }
+
+.layers { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 2px; }
+.layers li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.layers li:hover { background: var(--hover); }
+.layers li.on { background: var(--accent-soft); }
+.lname { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lkind { font-size: 11px; color: var(--muted); }
+.eye { border: 0; background: none; color: var(--accent); cursor: pointer; padding: 0 2px; font-size: 11px; }
+
+button {
+  font: inherit;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--fg);
+  cursor: pointer;
+}
+button:hover { border-color: var(--accent); }
+button.danger { color: #d33; }
+button.ghost { background: none; }
+
+.stage {
+  position: relative;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 72px 24px 24px;
+  background:
+    radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0) 0 0 / 16px 16px,
+    var(--stage);
+}
+
+.toolbar {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+.toolbar label { display: flex; align-items: center; gap: 6px; }
+.toolbar input[type='range'] { width: 80px; }
+.toolbar .file { cursor: pointer; color: var(--accent); }
+.toolbar .file input { display: none; }
+.seg { display: flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { border: 0; border-radius: 0; background: none; }
+.seg button.on { background: var(--accent); color: white; }
+
+.device-wrap { flex: none; }
+.device {
+  position: relative;
+  transform-origin: 0 0;
+  border-radius: 48px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0 0 10px #111, 0 0 0 11px #333, 0 30px 80px rgba(0, 0, 0, 0.35);
+  /* Overlays stack inside the device only. */
+  isolation: isolate;
+}
+.plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+
+.layer { position: absolute; }
+.layer > :first-child { position: relative; }
+.handle {
+  position: absolute;
+  inset: 0;
+  cursor: move;
+  z-index: 2;
+  outline: 1px dashed transparent;
+}
+.layer:hover .handle { outline-color: rgba(47, 87, 184, 0.45); }
+.layer.selected .handle { outline: 1.5px solid #2f57b8; }
+.tag {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 4px;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #2f57b8;
+  color: white;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.resize {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: white;
+  border: 1.5px solid #2f57b8;
+  cursor: nwse-resize;
+}
+.hint { color: var(--muted); font-size: 12px; margin-top: 28px; }
+
+.inspector .title {
+  width: 100%;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  border: 0;
+  background: none;
+  color: var(--fg);
+  padding: 0;
+}
+.geo-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.geo { display: grid; gap: 2px; font-size: 11px; color: var(--muted); }
+.geo input { width: 100%; }
+
+.field { display: grid; gap: 4px; margin-bottom: 12px; font-size: 12px; }
+.field span { color: var(--muted); display: flex; justify-content: space-between; }
+.field em { font-style: normal; color: var(--fg); font-variant-numeric: tabular-nums; }
+.field.inline { display: flex; align-items: center; gap: 8px; }
+.color-row { display: flex; gap: 6px; }
+.color-row input[type='color'] { width: 34px; height: 28px; padding: 0; border: 1px solid var(--line); border-radius: 6px; }
+.color-row input[type='text'] { flex: 1; }
+
+input[type='text'], input[type='number'], select {
+  font: inherit;
+  font-size: 12px;
+  padding: 5px 7px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--fg);
+  min-width: 0;
+}
+
+.actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
+
+.metal-host, .goo-piece {
+  display: grid;
+  place-items: center;
+  font: 600 15px/1 -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  box-sizing: border-box;
+}
+.mic-btn { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); z-index: 3; }
+
+/* Gooey nav (SpeechBench port) */
+.gnav { position: relative; pointer-events: none; }
+/* The voice glow's own layers carry z-index 1–4; contain them so the whole glow stays under the menu. */
+.gnav-voice { position: absolute; pointer-events: none; z-index: 0; isolation: isolate; }
+.gnav-voice * { pointer-events: none !important; }
+.gnav-overlay { z-index: 0; }
+.gnav-goo { position: absolute; inset: 0; overflow: visible; pointer-events: none; z-index: 2; }
+.gnav-glass {
+  position: absolute;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+}
+.gnav-btn {
+  position: absolute;
+  /* Above the edit-mode drag handle, so the menu stays tappable while editing. */
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.gnav-btn:hover { border: 0; }
+
+/* Transcription pill (Relay Runner port) */
+@font-face { font-family: 'Bai Jamjuree'; src: url('/fonts/BaiJamjuree-Regular.ttf') format('truetype'); font-weight: 400; }
+@font-face { font-family: 'Bai Jamjuree'; src: url('/fonts/BaiJamjuree-SemiBold.ttf') format('truetype'); font-weight: 600; }
+.gnav-pill { position: absolute; z-index: 1; pointer-events: none; overflow: hidden; }
+.tp {
+  position: absolute;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid rgb(17, 22, 29);
+  box-sizing: border-box;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  color: rgb(226, 232, 240);
+  pointer-events: auto;
+}
+.tp-measure { position: absolute; visibility: hidden; pointer-events: none; left: 0; top: 0; }
+.tp-measure > * { position: absolute; left: 0; top: 0; }
+.tp-title { position: absolute; }
+.tp-title-text {
+  font: 600 13px/17px 'Bai Jamjuree', system-ui, sans-serif;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tp-swap { position: relative; display: block; }
+.tp-swap .tp-out { position: absolute; inset: 0; animation: tp-out 200ms cubic-bezier(0.4, 0, 1, 1) forwards; }
+.tp-in { animation: tp-in 340ms cubic-bezier(0.22, 1, 0.36, 1) 300ms both; }
+@keyframes tp-out { to { opacity: 0; filter: blur(4px); transform: translateY(6px); } }
+@keyframes tp-in { from { opacity: 0; filter: blur(4px); transform: translateY(6px); } }
+.tp-body { position: absolute; }
+.tp-body-clip { position: absolute; inset: 0; overflow: hidden; }
+.tp-body-text { font: 400 14px/19px 'Bai Jamjuree', system-ui, sans-serif; white-space: pre-wrap; overflow-wrap: break-word; }
+
+.gnav-voice-palette {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: opacity 700ms ease-in-out;
+}
