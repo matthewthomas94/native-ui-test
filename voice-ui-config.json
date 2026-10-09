@@ -1,0 +1,139 @@
+{
+  "$comment": "Voice UI config for the gooey nav, transcription pill, voice glow and border beams. Units are points/px at the 393x854 device; times in ms unless noted.",
+  "palettes": {
+    "agent": {
+      "colors": ["#5b97ff", "#86b8fb", "#3f72e0", "#bfe3f4", "#24428f", "#4f86f7", "#2f63d6"],
+      "band": { "core": "#eaf6ff", "above": "#7ab8ff", "mid": "#9fd2f5", "below": "#4f86f7" }
+    },
+    "user": {
+      "colors": ["#f27650", "#9b8fc6", "#ec8a6c", "#3d82ff", "#a99ad0", "#5d8ff5", "#f0a184"],
+      "band": { "mid": "#8fb4ff" }
+    },
+    "byPhase": {
+      "listening": "user",
+      "recording": "user",
+      "sent": "agent",
+      "processing": "agent",
+      "speaking": "agent",
+      "idle": "agent"
+    },
+    "crossfadeMs": 700,
+    "crossfadeEasing": "ease-in-out"
+  },
+  "gooeyNav": {
+    "layer": { "width": 393, "height": 170, "anchor": "bottom" },
+    "items": ["close", "mic"],
+    "button": { "size": 48, "centreInsetFromBottomRight": { "x": 50, "y": 51 }, "dockedScale": 1.3333, "dockedPosition": "bottom-centre" },
+    "motion": { "durationMs": 550, "easing": "cubic-bezier(0.34, 1.56, 0.64, 1)", "closeIconSpinDelayMs": 60, "closeIconRest": "rotate(-90deg) scale(0.4)" },
+    "behaviour": {
+      "micAtRest": "dock to centre (enter voice mode); close button revealed in its place",
+      "micDocked": "toggle listening; while recording, send immediately",
+      "close": "undock, stop listening, dismiss voice mode"
+    },
+    "goo": {
+      "blurStdDeviation": 6,
+      "alphaThreshold": 0.42,
+      "colorMatrixAlphaRow": [0, 0, 0, 60, -25.2],
+      "fill": { "color": "#000000", "opacity": 0.72 },
+      "topRim": { "offsetY": 1.5, "color": "#ffffff", "opacity": 0.4 },
+      "bottomRim": { "offsetY": -1.5, "color": "#ffffff", "opacity": 0.12 }
+    },
+    "glass": { "backdropBlur": 14, "backdropSaturate": 1.4 },
+    "glyphs": {
+      "size": 18,
+      "close": { "stroke": "#ffffff", "strokeWidth": 2.4, "path": "M3.5 3.5l11 11M14.5 3.5l-11 11" },
+      "talk": {
+        "mic": "mic.fill",
+        "waveform": { "barWidth": 1.7, "pitch": 3.1, "heights": [4.9, 12.3, 18.9, 9.9, 15.1, 6.6], "meltBlur": 2.5 },
+        "showsWaveformIn": ["listening", "recording"]
+      }
+    }
+  },
+  "voiceOverlay": {
+    "tint": "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 100%)",
+    "maxBlur": 6,
+    "blurStart": 0.45,
+    "blurSteps": 8,
+    "fadeMs": 250,
+    "fadeEasing": "ease-in-out"
+  },
+  "voiceGlow": {
+    "package": "voice-glow",
+    "component": "VoiceBeam",
+    "type": "mobile",
+    "colorVariant": "mono",
+    "theme": "dark",
+    "colors": "palettes[speaker].colors",
+    "bandColors": "palettes[speaker].band",
+    "activeWhile": "mic open (conversation running)",
+    "level": "simulated speech envelope x 0.7 while recording or speaking"
+  },
+  "transcriptionPill": {
+    "position": { "anchor": "bottom-centre", "gapAboveDockedMic": 20 },
+    "size": { "maxWidth": 460, "screenMargin": 16, "paddingH": 24, "paddingV": 18, "textGap": 12, "radius": 16, "maxBodyHeight": 96 },
+    "style": { "background": "#000000", "border": "1px solid rgb(17, 22, 29)", "shadow": "0 2px 4px rgba(0,0,0,0.08)", "text": "rgb(226, 232, 240)" },
+    "type": {
+      "title": { "font": "Bai Jamjuree", "weight": 600, "size": 13, "lineHeight": 17 },
+      "body": { "font": "Bai Jamjuree", "weight": 400, "size": 14, "lineHeight": 19 }
+    },
+    "titles": {
+      "listening": "Start speaking...",
+      "recording": "Tap the mic to stop and send",
+      "sent": "Sending voice",
+      "processing": "Thinking…",
+      "speaking": "Playing"
+    },
+    "themes": { "stt": "user", "tts": "agent" },
+    "motion": {
+      "enter": { "ms": 300, "easing": "ease-in", "from": { "translateY": "below screen", "blur": 48, "opacity": 0 } },
+      "exit": { "ms": 300, "easing": "ease-in", "to": { "translateY": "below screen", "blur": 48, "opacity": 0 } },
+      "stateSwap": { "blurOutMs": 120, "peakBlur": 40, "unblurMs": 400, "easing": "cubic-bezier(0.2, 0.9, 0.3, 1)" },
+      "resize": { "ms": 400, "easing": "cubic-bezier(0.2, 0.9, 0.3, 1)" },
+      "titleSwap": { "outMs": 200, "inMs": 340, "inDelayMs": 300, "blur": 4, "travelY": 6 },
+      "ttsTeleprompter": { "pauseMs": 1000, "pxPerSecond": 25 }
+    },
+    "borderBeam": "borderBeam (shape: rect, radius: 15, palette: themes[theme])"
+  },
+  "borderBeam": {
+    "package": "border-beam@1.4.1",
+    "base": { "size": "md", "theme": "dark", "staticColors": true, "borderWidth": 1 },
+    "lapSeconds": 7,
+    "lapEasing": "cubic-bezier(0.37, 0, 0.63, 1)",
+    "fadeInMs": 600,
+    "fadeOutMs": 500,
+    "opacity": { "stroke": 0.416, "strokeMultiplier": 1.6, "innerMultiplier": 0.8, "bloomMultiplier": 0.4, "brightness": 1.1 },
+    "sheen": "conic-gradient(from <angle>, transparent 0%, transparent 50%, rgba(255,255,255,0.06) 56%, rgba(255,255,255,0.18) 61%, rgba(255,255,255,0.3) 66%, rgba(255,255,255,0.18) 71%, rgba(255,255,255,0.06) 76%, transparent 82%, transparent 100%)",
+    "hotspots": {
+      "stroke": { "alpha": 1, "scale": 1 },
+      "innerGlow": { "alpha": 0.45, "scale": 0.9 },
+      "rect": {
+        "$comment": "Widths are % of a 172pt card (they stretch with the box); heights are px. Colours cycle through the palette.",
+        "spots": [
+          { "at": ["33%", "-7.4%"], "w": 70, "h": 40 },
+          { "at": ["12%", "-5%"], "w": 60, "h": 35 },
+          { "at": ["2.1%", "68.3%"], "w": 40, "h": 70 },
+          { "at": ["2.1%", "68.3%"], "w": 20, "h": 35 },
+          { "at": ["74.4%", "100%"], "w": 180, "h": 32 },
+          { "at": ["55%", "100%"], "w": 85, "h": 26 },
+          { "at": ["93.9%", "0%"], "w": 74, "h": 32 },
+          { "at": ["100%", "27.1%"], "w": 26, "h": 42 },
+          { "at": ["100%", "27.1%"], "w": 52, "h": 48 }
+        ]
+      },
+      "circle": { "$comment": "One spot per palette colour, evenly round the ring from the top.", "radiusPercent": 45 }
+    },
+    "instances": {
+      "transcriptionPill": { "shape": "rect", "radius": 15, "palette": "stt → user, tts → agent", "activeWhile": "pill shown" },
+      "dockedMic": { "shape": "circle", "radius": 24, "palette": "palettes.byPhase (crossfaded)", "activeWhile": "docked (voice mode)", "zIndex": "under glyph" }
+    }
+  },
+  "layerDefaults": {
+    "level": 0.7,
+    "glow": true,
+    "glowTheme": "dark",
+    "overlay": true,
+    "overlayBlur": 6,
+    "overlayBlurStart": 0.45,
+    "conversation": true
+  }
+}
